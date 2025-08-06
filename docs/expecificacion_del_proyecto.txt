@@ -1,0 +1,13 @@
+
+- Objetivo del proyecto: Web para realizar reservas en las pistas de pádel
+
+- Tecnologías a usar: html, css, JS, PHP, MySQL,...
+
+- Funcionalidades principales: 
+   
+   - Registro/login de usuarios.
+   - Reserva pista de pádel (día y hora).
+   - Evitar reservas duplicadas.
+   - Ver, cancelar o modificar reservas.
+   - Panel admin (opcional).
+   
