@@ -35,7 +35,7 @@ evitar solapamientos, y gestionar sus reservas.
 ## 🚀 Cómo ejecutar el proyecto
 
 1. Clona el repositorio
-2. Instala XAMPP o Node.js (según backend)
+2. Instala XAMPP
 3. Importa `estructura.sql` en tu base de datos local
 4. Lanza el servidor
 5. Abre `frontend/index.html` en el navegador
