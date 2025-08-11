@@ -8,7 +8,6 @@ $password = "";
 try {
     $conn = new PDO("mysql:host=$host;dbname=$db_name", $user_name, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "Conexión establecida correctamente";
     
 } catch (PDOException $e) {
     echo "Connection failed: " . $e->getMessage();
