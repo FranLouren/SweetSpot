@@ -6,9 +6,19 @@
 </head>
 <body>
     <h1>Pistas disponibles</h1>
-    <ul id="lista-pistas"></ul>
 
-    <!-- Importar el script externo -->
+    <form id="reservaForm">
+        <input type="date" id="fecha" required>
+        <select id="pista" required>
+            <option value="1">Pista 1</option>
+            <option value="2">Pista 2</option>
+            <option value="3">Pista 3</option>
+            <option value="4">Pista 4</option>
+        </select>
+        <input type="time" id="hora_inicio" required>
+        <button type="submit">Reservar</button>
+    </form>
+
     <script src="js/main.js"></script>
 </body>
 </html>

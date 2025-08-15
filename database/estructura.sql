@@ -21,7 +21,7 @@ CREATE TABLE reservas (
     usuario_id INT NOT NULL,
     pista_id INT NOT NULL,
     fecha DATE NOT NULL,
-    hora TIME NOT NULL,
+    hora_inicio TIME NOT NULL AFTER fecha,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
     FOREIGN KEY (pista_id) REFERENCES pistas(id)
 );
