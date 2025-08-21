@@ -9,7 +9,7 @@ try {
     $fecha = $data['fecha'] ?? null;
     $pista_id = $data['pista_id'] ?? null;
     $hora_inicio = $data['hora_inicio'] ?? null;
-    $usuario_id = $data['usuario_id'] ?? null;
+    $usuario_id = $_SESSION['usuario_id'] ?? null;
 
     // Validación básica
     if (!$fecha || !$pista_id || !$hora_inicio || !$usuario_id) {
