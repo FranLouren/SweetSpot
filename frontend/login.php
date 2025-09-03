@@ -59,6 +59,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <h1>Iniciar sesión</h1>
 
+    <!-- 🔹 Mensaje si viene de register.php -->
+    <?php if (isset($_GET['registered']) && $_GET['registered'] == 1): ?>
+        <p style="color:green;">Registro exitoso. Ahora puedes iniciar sesión.</p>
+    <?php endif; ?>
+
     <!-- Mostramos el mensaje de error si existe -->
     <?php if ($error): ?>
         <p style="color:red;"><?php echo htmlspecialchars($error); ?></p>
@@ -70,5 +75,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <label>Contraseña: <input type="password" name="password" required></label><br><br>
         <button type="submit">Entrar</button>
     </form>
+
+    <!-- Enlace para registrarse -->
+    <p>¿No tienes cuenta? <a href="register.php">Regístrate</a></p>
+
 </body>
 </html>

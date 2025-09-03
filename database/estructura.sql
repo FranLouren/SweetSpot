@@ -9,6 +9,11 @@ CREATE TABLE usuarios (
     password VARCHAR(50) NOT NULL
 );
 
+-- HEMOS AÑADIDO LA COLUMNA ROL
+ALTER TABLE usuarios 
+ADD COLUMN rol ENUM('usuario', 'admin') DEFAULT 'usuario' AFTER password;
+
+
 -- Tabla de pistas
 CREATE TABLE pistas (
     id INT AUTO_INCREMENT PRIMARY KEY,
