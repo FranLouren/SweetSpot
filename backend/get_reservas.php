@@ -1,12 +1,13 @@
 <?php
-// Inicia la sesión para acceder a $_SESSION
-session_start();
-
-// Incluye la conexión a la base de datos
-require_once __DIR__ . '/config/db.php';
 
 // Indicamos que la salida será JSON
 header('Content-Type: application/json; charset=utf-8');
+
+// Verificación de sesión
+require_once __DIR__ . '/auth_check.php';
+
+// Incluye la conexión a la base de datos
+require_once __DIR__ . '/config/db.php';
 
 // Obtenemos el ID del usuario de la sesión
 $usuario_id = $_SESSION['usuario_id'] ?? null;

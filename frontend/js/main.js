@@ -25,29 +25,37 @@ document.getElementById('reservaForm').addEventListener('submit', function(e) {
     .then(data => {
         if (data.status === 'ok') {
             alert('Reserva realizada correctamente');
-            cargarReservas(usuarioId); // Refresca la tabla de reservas
+
+            // 🔹 Vaciar campos del formulario
+            document.getElementById('fecha').value = '';
+            document.getElementById('hora_inicio').value = '';
+            
+            // 🔹 Restablecer el select a la opción inicial
+            const selectPista = document.getElementById('pista');
+            selectPista.value = ''; // Valor vacío de la opción "Selecciona una pista"
+
+            // 🔹 Refresca la tabla de reservas
+            cargarReservas(usuarioId);
         } else {
-            alert('Error: ' + data.message); // Muestra error si falla
+            alert('Error: ' + data.message);
         }
     })
-    .catch(error => console.error('Error al enviar la reserva:', error)); // Maneja errores de red
+    .catch(error => console.error('Error al enviar la reserva:', error));
 });
 
 // Función para cargar las reservas del usuario
 function cargarReservas(uid) {
     fetch(`http://localhost/Golpe_maestro/backend/get_reservas.php?usuario_id=${uid}`)
-        .then(response => response.json()) // Convierte la respuesta en JSON
+        .then(response => response.json())
         .then(reservas => {
             const tbody = document.querySelector('#tablaReservas tbody');
             tbody.innerHTML = ''; // Limpia la tabla
 
-            // Si no hay reservas, muestra mensaje
             if (!reservas || reservas.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="5">No tienes reservas</td></tr>';
                 return;
             }
 
-            // Recorre las reservas y las muestra en la tabla
             reservas.forEach(reserva => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
@@ -62,27 +70,26 @@ function cargarReservas(uid) {
                 tbody.appendChild(tr);
             });
         })
-        .catch(error => console.error('Error al cargar reservas:', error)); // Maneja errores de red
+        .catch(error => console.error('Error al cargar reservas:', error));
 }
 
 // Función para cancelar una reserva
 function cancelarReserva(id) {
-    if (!confirm('¿Seguro que quieres cancelar esta reserva?')) return; // Confirma la acción
+    if (!confirm('¿Seguro que quieres cancelar esta reserva?')) return;
 
-    // Llama al backend para eliminar la reserva
     fetch(`http://localhost/Golpe_maestro/backend/delete_reserva.php?id=${id}`, {
         method: 'DELETE'
     })
-    .then(response => response.json()) // Convierte la respuesta en JSON
+    .then(response => response.json())
     .then(data => {
         if (data.status === 'ok') {
             alert('Reserva cancelada');
-            cargarReservas(usuarioId); // Refresca la tabla
+            cargarReservas(usuarioId);
         } else {
-            alert('Error al cancelar: ' + data.message); // Muestra error si falla
+            alert('Error al cancelar: ' + data.message);
         }
     })
-    .catch(error => console.error('Error al cancelar reserva:', error)); // Maneja errores de red
+    .catch(error => console.error('Error al cancelar reserva:', error));
 }
 
 // Hace la función cancelarReserva accesible desde el HTML

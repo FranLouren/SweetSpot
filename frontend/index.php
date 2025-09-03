@@ -17,7 +17,7 @@ if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > 
     session_unset();    // Elimina todas las variables de sesión
     session_destroy();  // Destruye la sesión
     // Redirige al login indicando timeout
-    header("Location: ../backend/login.php?timeout=1");
+    header("Location: ../frontend/login.php?timeout=1");
     exit; // Detiene la ejecución del resto del script
 }
 
@@ -37,6 +37,7 @@ $_SESSION['last_activity'] = time();
     <form id="reservaForm">
         <input type="date" id="fecha" required>
         <select id="pista" required>
+            <option value="" disabled selected>Selecciona una pista</option>
             <option value="1">Pista 1</option>
             <option value="2">Pista 2</option>
             <option value="3">Pista 3</option>

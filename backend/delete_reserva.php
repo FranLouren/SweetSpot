@@ -1,5 +1,8 @@
 <?php
-session_start(); // Inicia la sesión para acceder a los datos del usuario autenticado
+
+// Verificación de sesión
+require_once __DIR__ . '/auth_check.php';
+
 require_once __DIR__ . '/config/db.php'; // Incluye la conexión a la base de datos
 header('Content-Type: application/json; charset=utf-8'); // Define el tipo de respuesta como JSON
 
