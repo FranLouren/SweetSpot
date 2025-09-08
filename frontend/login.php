@@ -5,10 +5,14 @@ session_start();
 // Incluye la conexión a la base de datos (archivo con PDO)
 require_once __DIR__ . '/../backend/config/db.php';
 
-// Si ya hay un usuario logueado, lo redirigimos directamente a la página principal
+// Si ya hay un usuario logueado, lo redirigimos según su rol
 if (isset($_SESSION['usuario_id'])) {
-    header("Location: index.php"); // Redirige a index.php
-    exit; // Termina la ejecución del script
+    if ($_SESSION['usuario_rol'] === 'admin') {
+        header("Location: admin.php");
+    } else {
+        header("Location: index.php");
+    }
+    exit;
 }
 
 // Inicializamos una variable para almacenar mensajes de error
@@ -17,34 +21,35 @@ $error = '';
 // Comprobamos si se ha enviado el formulario (método POST)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Recogemos los datos enviados desde el formulario HTML
-    $email = $_POST['email'] ?? ''; // Si no existe, ponemos cadena vacía
+    $email = $_POST['email'] ?? ''; 
     $password = $_POST['password'] ?? '';
 
-    // Verificamos que ambos campos estén llenos
     if ($email && $password) {
         try {
-            // Preparamos una consulta segura con PDO para buscar el usuario por email
-            $stmt = $conn->prepare("SELECT id, nombre, password FROM usuarios WHERE email = :email");
-            $stmt->execute([':email' => $email]); // Ejecutamos la consulta pasando el email como parámetro seguro
-            $usuario = $stmt->fetch(PDO::FETCH_ASSOC); // Obtenemos la fila como array asociativo
+            // Ahora también seleccionamos el rol
+            $stmt = $conn->prepare("SELECT id, nombre, password, rol FROM usuarios WHERE email = :email");
+            $stmt->execute([':email' => $email]);
+            $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            // Verificamos si existe el usuario y si la contraseña coincide con password_verify()
             if ($usuario && password_verify($password, $usuario['password'])) {
-                // Guardamos el ID del usuario en la sesión
+                // Guardamos en sesión ID y rol
                 $_SESSION['usuario_id'] = $usuario['id'];
-                // Redirigimos a la página principal
-                header("Location: index.php");
+                $_SESSION['usuario_rol'] = $usuario['rol'];
+
+                // Redirigimos según el rol
+                if ($usuario['rol'] === 'admin') {
+                    header("Location: admin.php");
+                } else {
+                    header("Location: index.php");
+                }
                 exit;
             } else {
-                // Si usuario o contraseña son incorrectos, guardamos mensaje de error
                 $error = 'Usuario o contraseña incorrectos';
             }
         } catch (PDOException $e) {
-            // Si ocurre un error de base de datos, lo guardamos en la variable de error
             $error = 'Error en la base de datos: ' . $e->getMessage();
         }
     } else {
-        // Si no se llenaron los campos, mostramos un mensaje
         $error = 'Por favor ingresa email y contraseña';
     }
 }
