@@ -1,0 +1,322 @@
+/* ============================================
+   SweetSpot - Tema Claro
+   ============================================ */
+
+/* Variables de colores - Tema claro y armonioso */
+:root {
+    --primary-color: #3b82f6;
+    /* Azul vibrante */
+    --primary-hover: #2563eb;
+    /* Azul hover */
+    --accent-color: #10b981;
+    /* Verde esmeralda */
+    --background-light: #ffffff;
+    /* Fondo blanco */
+    --background-card: #f8fafc;
+    /* Fondo cards (gris muy claro) */
+    --text-dark: #1e293b;
+    /* Texto oscuro */
+    --text-muted: #64748b;
+    /* Texto secundario */
+    --border-color: #e2e8f0;
+    /* Bordes suaves */
+}
+
+/* Tabla de historial - Estilo desvanecido */
+#tablaHistorial {
+    opacity: 0.6;
+}
+
+#tablaHistorial tbody tr {
+    color: var(--text-muted);
+}
+
+#tablaHistorial:hover {
+    opacity: 0.85;
+    transition: opacity 0.3s ease;
+}
+
+/* Fondo general - Blanco con gradiente sutil */
+body {
+    background: linear-gradient(180deg, #f1f5f9 0%, #ffffff 100%);
+    min-height: 100vh;
+    color: var(--text-dark);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* Cards personalizadas - Tema claro */
+.card-custom {
+    background: var(--background-light);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.card-custom .card-header {
+    background: var(--background-card);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 1.5rem;
+    border-radius: 12px 12px 0 0;
+}
+
+.card-custom .card-header h5,
+.card-custom .card-header h4 {
+    color: var(--text-dark) !important;
+}
+
+.card-custom .card-body {
+    padding: 1.5rem;
+}
+
+/* Formularios - Tema claro */
+.form-control,
+.form-select {
+    background: var(--background-light);
+    border: 1px solid var(--border-color);
+    color: var(--text-dark);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+    background: var(--background-light);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    color: var(--text-dark);
+}
+
+.form-control::placeholder {
+    color: var(--text-muted);
+}
+
+.form-label {
+    color: var(--text-dark);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+/* Botones */
+.btn-primary {
+    background: var(--primary-color);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+/* Botón naranja (color Spot) */
+.btn-orange {
+    background: #f97316;
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.btn-orange:hover {
+    background: #ea580c;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+}
+
+/* Tablas - Tema claro */
+.table {
+    color: var(--text-dark);
+}
+
+.table-dark {
+    --bs-table-bg: var(--background-card);
+    --bs-table-color: var(--text-dark);
+    --bs-table-border-color: var(--border-color);
+    --bs-table-striped-bg: #f1f5f9;
+    --bs-table-striped-color: var(--text-dark);
+}
+
+.table-dark th {
+    background: #e2e8f0;
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+/* Links */
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: var(--primary-hover);
+}
+
+/* Logo/Título */
+.brand-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+}
+
+.brand-subtitle {
+    color: var(--text-muted);
+    font-size: 1rem;
+}
+
+/* Alertas */
+.alert-danger {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #dc2626;
+    border-radius: 8px;
+}
+
+.alert-success {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #16a34a;
+    border-radius: 8px;
+}
+
+/* Navbar - Fondo crema como el logo */
+.navbar-dark.bg-dark {
+    background: #ffffff !important;
+    border-bottom: 1px solid #e8e4dc;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    padding: 1rem 0;
+}
+
+.navbar .container {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.4rem !important;
+}
+
+.navbar-brand .logo-icon {
+    width: 90px;
+    height: 90px;
+    border-radius: 12px;
+    object-fit: cover;
+    margin: -15px 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.navbar-dark .navbar-brand {
+    color: var(--text-dark) !important;
+    font-weight: 700;
+}
+
+/* Colores del nombre Sweet (naranja) y Spot (verde) */
+.text-sweet {
+    color: #000000;
+    font-weight: 700;
+}
+
+.text-spot {
+    color: #f97316;
+    font-weight: 700;
+}
+
+.brand-text {
+    font-size: 1.5rem;
+    letter-spacing: 0.5px;
+}
+
+.navbar-dark .btn-outline-light {
+    color: var(--text-dark);
+    border-color: var(--border-color);
+}
+
+.navbar-dark .btn-outline-light:hover {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+.navbar-dark .btn-outline-info {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* Enlaces de navegación */
+.navbar-nav .nav-link {
+    color: var(--text-muted) !important;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    transition: color 0.2s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--primary-color) !important;
+}
+
+.navbar-nav .nav-link.active {
+    color: var(--text-dark) !important;
+    font-weight: 600;
+}
+
+/* Centrar contenido en página de login/register */
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 420px;
+}
+
+/* Texto mutado */
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+.text-white {
+    color: var(--text-dark) !important;
+}
+
+/* Badges */
+.badge.bg-danger {
+    background: #ef4444 !important;
+}
+
+.badge.bg-secondary {
+    background: #94a3b8 !important;
+}
+
+/* Texto naranja */
+.text-orange {
+    color: #ffffff !important;
+}
+
+/* Footer */
+footer.bg-dark {
+    background: #1e293b !important;
+}
+
+footer h5 {
+    font-weight: 600;
+}

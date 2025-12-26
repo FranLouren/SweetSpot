@@ -8,8 +8,8 @@ session_unset();
 // Destruye completamente la sesión en el servidor, borrando el identificador.
 session_destroy();
 
-// Redirige al usuario al archivo de login.php.
-header("Location: login.php");
+// Redirige al usuario a la página principal
+header("Location: index.php");
 
 // Detiene la ejecución del script para asegurar que no se ejecute más código.
 exit;

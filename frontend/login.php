@@ -21,7 +21,7 @@ $error = '';
 // Comprobamos si se ha enviado el formulario (método POST)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Recogemos los datos enviados desde el formulario HTML
-    $email = $_POST['email'] ?? ''; 
+    $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
 
     if ($email && $password) {
@@ -57,32 +57,67 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - SweetSpot</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="img/logo.jpg">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- CSS Personalizado -->
+    <link href="css/custom.css" rel="stylesheet">
 </head>
+
 <body>
-    <h1>Iniciar sesión</h1>
+    <div class="auth-container">
+        <div class="auth-card">
+            <!-- Logo y título -->
+            <div class="text-center mb-4">
+                <h1 class="brand-title">SweetSpot</h1>
+                <p class="brand-subtitle">Reserva tu pista de pádel</p>
+            </div>
 
-    <!-- 🔹 Mensaje si viene de register.php -->
-    <?php if (isset($_GET['registered']) && $_GET['registered'] == 1): ?>
-        <p style="color:green;">Registro exitoso. Ahora puedes iniciar sesión.</p>
-    <?php endif; ?>
+            <!-- Card del formulario -->
+            <div class="card card-custom">
+                <div class="card-header text-center">
+                    <h4 class="mb-0 text-white">Iniciar Sesión</h4>
+                </div>
+                <div class="card-body">
+                    <!-- 🔹 Mensaje si viene de register.php -->
+                    <?php if (isset($_GET['registered']) && $_GET['registered'] == 1): ?>
+                        <div class="alert alert-success">Registro exitoso. Ahora puedes iniciar sesión.</div>
+                    <?php endif; ?>
 
-    <!-- Mostramos el mensaje de error si existe -->
-    <?php if ($error): ?>
-        <p style="color:red;"><?php echo htmlspecialchars($error); ?></p>
-    <?php endif; ?>
+                    <!-- Mostramos el mensaje de error si existe -->
+                    <?php if ($error): ?>
+                        <div class="alert alert-danger"><?php echo htmlspecialchars($error); ?></div>
+                    <?php endif; ?>
 
-    <!-- Formulario de login -->
-    <form method="POST" action="">
-        <label>Email: <input type="email" name="email" required></label><br><br>
-        <label>Contraseña: <input type="password" name="password" required></label><br><br>
-        <button type="submit">Entrar</button>
-    </form>
+                    <!-- Formulario de login -->
+                    <form method="POST" action="">
+                        <div class="mb-3">
+                            <label class="form-label">Email:</label>
+                            <input type="email" name="email" class="form-control" placeholder="tu@email.com" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Contraseña:</label>
+                            <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Entrar</button>
+                    </form>
 
-    <!-- Enlace para registrarse -->
-    <p>¿No tienes cuenta? <a href="register.php">Regístrate</a></p>
+                    <!-- Enlace para registrarse -->
+                    <div class="text-center mt-4">
+                        <span class="text-muted">¿No tienes cuenta?</span>
+                        <a href="register.php">Regístrate</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </body>
+
 </html>

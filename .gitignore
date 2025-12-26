@@ -1,0 +1,28 @@
+# Archivos de documentación Word
+*.docx
+~$*
+
+# Archivos temporales
+*.tmp
+*.log
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Imágenes (son personalizables por cada instalación)
+frontend/img/*
+
+# Configuración de IDE
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Dependencias (si las hubiera)
+node_modules/
+vendor/
+
+# Archivos de configuración local con credenciales
+# (Descomenta si tienes un db.php de producción diferente)
+# backend/config/db.php

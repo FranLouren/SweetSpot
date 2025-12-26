@@ -39,8 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     VALUES (:nombre, :email, :password, 'usuario')
                 ");
                 $stmt->execute([
-                    ':nombre'   => $nombre,
-                    ':email'    => $email,
+                    ':nombre' => $nombre,
+                    ':email' => $email,
                     ':password' => $hash
                 ]);
 
@@ -56,33 +56,68 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <title>Registro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - SweetSpot</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="img/logo.jpg">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- CSS Personalizado -->
+    <link href="css/custom.css" rel="stylesheet">
 </head>
+
 <body>
-    <h1>Crear cuenta</h1>
+    <div class="auth-container">
+        <div class="auth-card">
+            <!-- Logo y título -->
+            <div class="text-center mb-4">
+                <h1 class="brand-title">SweetSpot</h1>
+                <p class="brand-subtitle">Reserva tu pista de pádel</p>
+            </div>
 
-    <?php if ($error): ?>
-        <p style="color:red;"><?php echo htmlspecialchars($error); ?></p>
-    <?php endif; ?>
+            <!-- Card del formulario -->
+            <div class="card card-custom">
+                <div class="card-header text-center">
+                    <h4 class="mb-0 text-white">Crear cuenta</h4>
+                </div>
+                <div class="card-body">
+                    <!-- Mensaje de error -->
+                    <?php if ($error): ?>
+                        <div class="alert alert-danger"><?php echo htmlspecialchars($error); ?></div>
+                    <?php endif; ?>
 
-    <form method="POST" action="" autocomplete="off">
-        <label>Nombre:<br>
-            <input type="text" name="nombre" required value="<?php echo htmlspecialchars($nombre); ?>">
-        </label><br><br>
+                    <!-- Formulario de registro -->
+                    <form method="POST" action="" autocomplete="off">
+                        <div class="mb-3">
+                            <label class="form-label">Nombre:</label>
+                            <input type="text" name="nombre" class="form-control" placeholder="Tu nombre" required
+                                value="<?php echo htmlspecialchars($nombre); ?>">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email:</label>
+                            <input type="email" name="email" class="form-control" placeholder="tu@email.com" required
+                                value="<?php echo htmlspecialchars($email); ?>">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Contraseña:</label>
+                            <input type="password" name="password" class="form-control"
+                                placeholder="Mínimo 6 caracteres" required autocomplete="new-password">
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Registrarse</button>
+                    </form>
 
-        <label>Email:<br>
-            <input type="email" name="email" required value="<?php echo htmlspecialchars($email); ?>">
-        </label><br><br>
-
-        <label>Contraseña:<br>
-            <input type="password" name="password" required autocomplete="new-password">
-        </label><br><br>
-
-        <button type="submit">Registrarse</button>
-    </form>
-
-    <p>¿Ya tienes cuenta? <a href="login.php">Inicia sesión</a></p>
+                    <!-- Enlace a login -->
+                    <div class="text-center mt-4">
+                        <span class="text-muted">¿Ya tienes cuenta?</span>
+                        <a href="login.php">Inicia sesión</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>

@@ -19,9 +19,7 @@ if (!$usuario_id) {
 }
 
 try {
-    // Preparamos la consulta para obtener las reservas del usuario
-    // JOIN con la tabla pistas para obtener el nombre de la pista
-    // ADDTIME() calcula la hora de fin sumando 1 hora 30 minutos a la hora de inicio
+    // Consulta para obtener TODAS las reservas del usuario
     $stmt = $conn->prepare("
         SELECT r.id, 
                r.fecha, 
@@ -31,19 +29,39 @@ try {
         FROM reservas r
         JOIN pistas p ON r.pista_id = p.id
         WHERE r.usuario_id = :usuario_id
-        ORDER BY r.fecha, r.hora_inicio
+        ORDER BY r.fecha DESC, r.hora_inicio DESC
     ");
 
-    // Ejecutamos la consulta pasando el parámetro seguro del usuario
     $stmt->execute([':usuario_id' => $usuario_id]);
+    $todasReservas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Obtenemos todas las reservas en un array asociativo
-    $reservas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // Separar en activas e historial
+    $activas = [];
+    $historial = [];
+    $ahora = new DateTime(); // Fecha y hora actual
 
-    // Devolvemos las reservas en formato JSON
-    echo json_encode($reservas, JSON_UNESCAPED_UNICODE);
+    foreach ($todasReservas as $reserva) {
+        // Crear DateTime de fin de la reserva
+        $finReserva = new DateTime($reserva['fecha'] . ' ' . $reserva['hora_fin']);
+
+        if ($finReserva > $ahora) {
+            $activas[] = $reserva; // Aún no ha terminado
+        } else {
+            $historial[] = $reserva; // Ya pasó
+        }
+    }
+
+    // Ordenar activas por fecha ascendente (las más próximas primero)
+    usort($activas, function ($a, $b) {
+        return strcmp($a['fecha'] . $a['hora_inicio'], $b['fecha'] . $b['hora_inicio']);
+    });
+
+    // Devolver ambos arrays
+    echo json_encode([
+        'activas' => $activas,
+        'historial' => $historial
+    ], JSON_UNESCAPED_UNICODE);
 
 } catch (PDOException $e) {
-    // Si hay un error en la base de datos, devolvemos un JSON con el mensaje de error
     echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
 }
