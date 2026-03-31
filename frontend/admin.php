@@ -114,10 +114,22 @@ $listaPistas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                     <div class="col-md-2">
                         <label class="form-label">Hora</label>
-                        <input type="time" name="hora" class="form-control" required>
+                        <select name="hora" class="form-select" required>
+                            <option value="">-- Hora --</option>
+                            <option value="07:00">07:00</option>
+                            <option value="08:30">08:30</option>
+                            <option value="10:00">10:00</option>
+                            <option value="11:30">11:30</option>
+                            <option value="13:00">13:00</option>
+                            <option value="14:30">14:30</option>
+                            <option value="16:00">16:00</option>
+                            <option value="17:30">17:30</option>
+                            <option value="19:00">19:00</option>
+                            <option value="20:30">20:30</option>
+                        </select>
                     </div>
                     <div class="col-md-2">
-                        <button type="submit" class="btn btn-primary w-100">Añadir</button>
+                        <button type="submit" class="btn btn-orange w-100">Añadir</button>
                     </div>
                 </form>
             </div>

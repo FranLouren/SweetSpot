@@ -82,9 +82,8 @@ body {
 .form-control:focus,
 .form-select:focus {
     background: var(--background-light);
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-    color: var(--text-dark);
+    border-color: #f97316;
+    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
 }
 
 .form-control::placeholder {
@@ -165,10 +164,6 @@ a:hover {
 .brand-title {
     font-size: 2.5rem;
     font-weight: 700;
-    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
     margin-bottom: 0.5rem;
 }
 
@@ -212,13 +207,16 @@ a:hover {
     font-size: 1.4rem !important;
 }
 
-.navbar-brand .logo-icon {
+.logo-icon {
     width: 90px;
     height: 90px;
     border-radius: 12px;
     object-fit: cover;
-    margin: -15px 0;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.navbar-brand .logo-icon {
+    margin: -15px 0;
 }
 
 .navbar-dark .navbar-brand {
@@ -226,15 +224,17 @@ a:hover {
     font-weight: 700;
 }
 
-/* Colores del nombre Sweet (naranja) y Spot (verde) */
+/* Colores del nombre Sweet (negro) y Spot (naranja) */
 .text-sweet {
-    color: #000000;
+    color: #000000 !important;
     font-weight: 700;
+    font-size: 2.5rem;
 }
 
 .text-spot {
-    color: #f97316;
+    color: #f97316 !important;
     font-weight: 700;
+    font-size: 2.5rem;
 }
 
 .brand-text {

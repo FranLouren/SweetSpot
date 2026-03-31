@@ -91,10 +91,22 @@ $_SESSION['last_activity'] = time();
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">Hora inicio</label>
-                        <input type="time" id="hora_inicio" class="form-control" required>
+                        <select id="hora_inicio" class="form-select" required>
+                            <option value="" disabled selected>Selecciona</option>
+                            <option value="07:00">07:00 - 08:30</option>
+                            <option value="08:30">08:30 - 10:00</option>
+                            <option value="10:00">10:00 - 11:30</option>
+                            <option value="11:30">11:30 - 13:00</option>
+                            <option value="13:00">13:00 - 14:30</option>
+                            <option value="14:30">14:30 - 16:00</option>
+                            <option value="16:00">16:00 - 17:30</option>
+                            <option value="17:30">17:30 - 19:00</option>
+                            <option value="19:00">19:00 - 20:30</option>
+                            <option value="20:30">20:30 - 22:00</option>
+                        </select>
                     </div>
                     <div class="col-md-3">
-                        <button type="submit" class="btn btn-primary w-100">Reservar</button>
+                        <button type="submit" class="btn btn-orange w-100">Reservar</button>
                     </div>
                 </form>
             </div>

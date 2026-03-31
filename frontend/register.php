@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- CSS Personalizado -->
-    <link href="css/custom.css" rel="stylesheet">
+    <link href="css/custom.css?v=2" rel="stylesheet">
 </head>
 
 <body>
@@ -74,7 +74,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="auth-card">
             <!-- Logo y título -->
             <div class="text-center mb-4">
-                <h1 class="brand-title">SweetSpot</h1>
+                <div class="d-flex align-items-center justify-content-center gap-3 mb-2">
+                    <img src="img/logo.jpg" alt="Logo" class="logo-icon">
+                    <h1 class="brand-title mb-0">
+                        <span class="text-sweet">Sweet</span><span class="text-spot">Spot</span>
+                    </h1>
+                </div>
                 <p class="brand-subtitle">Reserva tu pista de pádel</p>
             </div>
 
@@ -106,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <input type="password" name="password" class="form-control"
                                 placeholder="Mínimo 6 caracteres" required autocomplete="new-password">
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">Registrarse</button>
+                        <button type="submit" class="btn btn-orange w-100">Registrarse</button>
                     </form>
 
                     <!-- Enlace a login -->

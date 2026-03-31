@@ -13,14 +13,21 @@ try {
     $data = json_decode(file_get_contents('php://input'), true);
 
     // 🔹 Obtenemos cada dato, o null si no existe
-    $fecha       = $data['fecha'] ?? null;
-    $pista_id    = $data['pista_id'] ?? null;
+    $fecha = $data['fecha'] ?? null;
+    $pista_id = $data['pista_id'] ?? null;
     $hora_inicio = $data['hora_inicio'] ?? null;
-    $usuario_id  = $_SESSION['usuario_id'] ?? null; // Del login
+    $usuario_id = $_SESSION['usuario_id'] ?? null; // Del login
 
     // 🔹 Validación básica: si falta algún dato, cortamos
     if (!$fecha || !$pista_id || !$hora_inicio || !$usuario_id) {
         echo json_encode(['status' => 'error', 'message' => 'Faltan datos']);
+        exit;
+    }
+
+    // 🔹 Validación de franjas horarias permitidas
+    $slots_permitidos = ['07:00', '08:30', '10:00', '11:30', '13:00', '14:30', '16:00', '17:30', '19:00', '20:30'];
+    if (!in_array($hora_inicio, $slots_permitidos)) {
+        echo json_encode(['status' => 'error', 'message' => 'Hora no válida. Usa las franjas horarias establecidas.']);
         exit;
     }
 
@@ -46,10 +53,10 @@ try {
                AND ADDTIME(hora_inicio,'01:30:00') > :hora_inicio)
     ");
     $stmt->execute([
-        ':pista_id'   => $pista_id,
-        ':fecha'      => $fecha,
-        ':hora_inicio'=> $inicio->format('H:i:s'),
-        ':hora_fin'   => $fin->format('H:i:s')
+        ':pista_id' => $pista_id,
+        ':fecha' => $fecha,
+        ':hora_inicio' => $inicio->format('H:i:s'),
+        ':hora_fin' => $fin->format('H:i:s')
     ]);
 
     // 🔹 Si hay solapamiento, mostramos error
@@ -65,14 +72,14 @@ try {
     ");
     $stmt->execute([
         ':usuario_id' => $usuario_id,
-        ':pista_id'   => $pista_id,
-        ':fecha'      => $fecha,
-        ':hora_inicio'=> $inicio->format('H:i:s')
+        ':pista_id' => $pista_id,
+        ':fecha' => $fecha,
+        ':hora_inicio' => $inicio->format('H:i:s')
     ]);
 
     // 🔹 Devolvemos respuesta JSON con éxito y hora de fin calculada
     echo json_encode([
-        'status'   => 'ok',
+        'status' => 'ok',
         'hora_fin' => $fin->format('H:i:s')
     ]);
 
