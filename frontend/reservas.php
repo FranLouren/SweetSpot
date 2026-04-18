@@ -2,23 +2,19 @@
 // Inicia la sesión para acceder a $_SESSION
 session_start();
 
-// 1) Verificar si hay sesión activa
-// Si no hay 'usuario_id' en la sesión, significa que el usuario no está logueado
+//  Verificar si hay sesión activa
 if (!isset($_SESSION['usuario_id'])) {
-    // Redirige al login
     header("Location: login.php");
-    exit; // Importante para detener la ejecución del resto del script
+    exit;
 }
 
-// 2) Verificar inactividad (10 minutos = 600 segundos)
-// Si existe 'last_activity' y ha pasado más de 600 segundos desde la última acción
+// Comprobamos si existe 'last_activity' y ha pasado más de 600 segundos desde la última acción
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > 600)) {
-    // Cerrar sesión por inactividad
-    session_unset();    // Elimina todas las variables de sesión
-    session_destroy();  // Destruye la sesión
+    session_unset();
+    session_destroy();
     // Redirige al login indicando timeout
     header("Location: ../frontend/login.php?timeout=1");
-    exit; // Detiene la ejecución del resto del script
+    exit;
 }
 
 // Actualizar última actividad a la hora actual

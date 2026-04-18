@@ -2,10 +2,10 @@
 // Inicia la sesión para poder usar $_SESSION
 session_start();
 
-// Incluye la conexión a la base de datos (archivo con PDO)
+// Incluye la conexión a la base de datos 
 require_once __DIR__ . '/../backend/config/db.php';
 
-// Si ya hay un usuario logueado, lo redirigimos según su rol
+// Si ya hay un usuario logueado se redirige según su rol
 if (isset($_SESSION['usuario_id'])) {
     if ($_SESSION['usuario_rol'] === 'admin') {
         header("Location: admin.php");
@@ -15,10 +15,10 @@ if (isset($_SESSION['usuario_id'])) {
     exit;
 }
 
-// Inicializamos una variable para almacenar mensajes de error
+// Inicializamos variable para almacenar mensajes de error
 $error = '';
 
-// Comprobamos si se ha enviado el formulario (método POST)
+// Comprobamos si se ha enviado el formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Recogemos los datos enviados desde el formulario HTML
     $email = $_POST['email'] ?? '';
@@ -75,10 +75,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="auth-card">
             <!-- Logo y título -->
             <div class="text-center mb-4">
-                <div class="d-flex align-items-center justify-content-center gap-3 mb-2">
+                <a href="index.php" class="d-flex align-items-center justify-content-center gap-3 mb-2 text-decoration-none">
                     <img src="img/logo.jpg" alt="Logo" class="logo-icon">
-                    <h1 class="brand-title mb-0"><span class="text-sweet">Sweet</span><span class="text-spot">Spot</span></h1>
-                </div>
+                    <h1 class="brand-title mb-0"><span class="text-sweet">Sweet</span><span
+                            class="text-spot">Spot</span></h1>
+                </a>
                 <p class="brand-subtitle">Reserva tu pista de pádel</p>
             </div>
 

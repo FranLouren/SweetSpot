@@ -80,7 +80,6 @@ if ($logged_in) {
                 <p class="lead text-muted">Tu plataforma de reservas de pistas de pádel</p>
             <?php endif; ?>
 
-            <a href="reservas.php" class="btn btn-orange btn-lg mt-3">Ir a Reservas</a>
         </div>
 
         <!-- Imagen de las pistas -->
@@ -122,7 +121,7 @@ if ($logged_in) {
 
             <!-- Copyright -->
             <div class="text-center text-muted">
-                <p class="mb-0">&copy; 2024 SweetSpot Hannover. Todos los derechos reservados.</p>
+                <p class="mb-0">&copy; 2026 SweetSpot Hannover. Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>

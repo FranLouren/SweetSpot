@@ -26,15 +26,15 @@ document.getElementById('reservaForm').addEventListener('submit', function (e) {
             if (data.status === 'ok') {
                 alert('Reserva realizada correctamente');
 
-                // 🔹 Vaciar campos del formulario
+                // Vaciar campos del formulario
                 document.getElementById('fecha').value = '';
                 document.getElementById('hora_inicio').value = '';
 
-                // 🔹 Restablecer el select a la opción inicial
+                // Restablecer el select a la opción inicial
                 const selectPista = document.getElementById('pista');
                 selectPista.value = ''; // Valor vacío de la opción "Selecciona una pista"
 
-                // 🔹 Refresca la tabla de reservas
+                // Refresca la tabla de reservas
                 cargarReservas(usuarioId);
             } else {
                 alert('Error: ' + data.message);

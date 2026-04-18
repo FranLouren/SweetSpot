@@ -74,12 +74,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="auth-card">
             <!-- Logo y título -->
             <div class="text-center mb-4">
-                <div class="d-flex align-items-center justify-content-center gap-3 mb-2">
+                <a href="index.php" class="d-flex align-items-center justify-content-center gap-3 mb-2 text-decoration-none">
                     <img src="img/logo.jpg" alt="Logo" class="logo-icon">
                     <h1 class="brand-title mb-0">
                         <span class="text-sweet">Sweet</span><span class="text-spot">Spot</span>
                     </h1>
-                </div>
+                </a>
                 <p class="brand-subtitle">Reserva tu pista de pádel</p>
             </div>
 
