@@ -164,7 +164,7 @@ $listaPistas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <th><?= $lang['admin_name'] ?></th>
                             <th><?= $lang['admin_email'] ?></th>
                             <th><?= $lang['admin_role'] ?></th>
-                            <th><?= $lang['admin_actions'] ?></th>
+                            <th class="text-center"><?= $lang['admin_actions'] ?></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -176,10 +176,23 @@ $listaPistas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <td><span
                                         class="badge <?= $u['rol'] === 'admin' ? 'bg-danger' : 'bg-secondary' ?>"><?= $u['rol'] ?></span>
                                 </td>
-                                <td>
-                                    <a href="../backend/admin_delete_user.php?id=<?= $u['id'] ?>"
-                                        class="btn btn-outline-danger btn-sm"
-                                        onclick="return confirm('<?= $lang['admin_confirm_del_user'] ?>');"><?= $lang['admin_delete'] ?></a>
+                                <td class="text-center align-middle">
+                                    <?php if ($u['id'] !== $_SESSION['usuario_id']): ?>
+                                        <?php
+                                        $esAdmin = $u['rol'] === 'admin';
+                                        $textoRol = $esAdmin ? $lang['admin_remove_admin'] : $lang['admin_make_admin'];
+                                        $confirmRol = $esAdmin ? $lang['admin_confirm_remove_admin'] : $lang['admin_confirm_make_admin'];
+                                        $claseRol = $esAdmin ? 'btn-outline-warning' : 'btn-outline-success';
+                                        ?>
+                                        <a href="../backend/admin_toggle_role.php?id=<?= $u['id'] ?>"
+                                            class="btn <?= $claseRol ?> btn-sm me-1"
+                                            onclick="return confirm('<?= $confirmRol ?>');"><?= $textoRol ?></a>
+                                        <a href="../backend/admin_delete_user.php?id=<?= $u['id'] ?>"
+                                            class="btn btn-outline-danger btn-sm"
+                                            onclick="return confirm('<?= $lang['admin_confirm_del_user'] ?>');"><?= $lang['admin_delete'] ?></a>
+                                    <?php else: ?>
+                                        <span class="text-muted small">—</span>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

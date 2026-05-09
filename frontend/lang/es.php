@@ -124,4 +124,8 @@ $lang = [
     'admin_cancel' => 'Cancelar',
     'admin_confirm_del_res' => '¿Cancelar esta reserva?',
     'admin_completed' => 'Completada',
+    'admin_make_admin' => 'Hacer Admin',
+    'admin_remove_admin' => 'Quitar Admin',
+    'admin_confirm_make_admin' => '¿Asignar rol de administrador a este usuario?',
+    'admin_confirm_remove_admin' => '¿Quitar el rol de administrador a este usuario?',
 ];
