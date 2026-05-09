@@ -4,7 +4,8 @@
 header('Content-Type: application/json; charset=utf-8');
 
 // Verificación de sesión
-require_once __DIR__ . '/auth_check.php';
+require_once __DIR__ . '/middleware/Auth_middleware.php';
+require_auth_api();
 
 // Incluye la conexión a la base de datos
 require_once __DIR__ . '/config/db.php';
@@ -19,7 +20,7 @@ if (!$usuario_id) {
 }
 
 try {
-    // Consulta para obtener TODAS las reservas del usuario
+    // Consulta para obtener todas las reservas del usuario
     $stmt = $conn->prepare("
         SELECT r.id, 
                r.fecha, 
@@ -35,28 +36,27 @@ try {
     $stmt->execute([':usuario_id' => $usuario_id]);
     $todasReservas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Separar en activas e historial
+    // Separamos en activas e historial
     $activas = [];
     $historial = [];
-    $ahora = new DateTime(); // Fecha y hora actual
+    $ahora = new DateTime();
 
     foreach ($todasReservas as $reserva) {
-        // Crear DateTime de fin de la reserva
         $finReserva = new DateTime($reserva['fecha'] . ' ' . $reserva['hora_fin']);
 
         if ($finReserva > $ahora) {
-            $activas[] = $reserva; // Aún no ha terminado
+            $activas[] = $reserva;
         } else {
-            $historial[] = $reserva; // Ya pasó
+            $historial[] = $reserva;
         }
     }
 
-    // Ordenar activas por fecha ascendente (las más próximas primero)
+    // Ordenamos las activas por fecha ascendente
     usort($activas, function ($a, $b) {
         return strcmp($a['fecha'] . $a['hora_inicio'], $b['fecha'] . $b['hora_inicio']);
     });
 
-    // Devolver ambos arrays
+    // Devolvemos ambos arrays
     echo json_encode([
         'activas' => $activas,
         'historial' => $historial

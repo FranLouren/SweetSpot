@@ -1,7 +1,8 @@
 <?php
 
 // Verificación de sesión
-require_once __DIR__ . '/auth_check.php';
+require_once __DIR__ . '/middleware/Auth_middleware.php';
+require_auth_api();
 
 require_once __DIR__ . '/config/db.php'; // Incluye la conexión a la base de datos
 header('Content-Type: application/json; charset=utf-8'); // Define el tipo de respuesta como JSON

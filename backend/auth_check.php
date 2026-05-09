@@ -2,19 +2,22 @@
 // backend/auth_check.php
 session_start();
 
-// 1) Verificar si hay sesión activa
+// Cargar sistema de idiomas
+require_once __DIR__ . '/../frontend/lang/lang.php';
+
+// Verificar si hay sesión activa
 if (!isset($_SESSION['usuario_id'])) {
-    echo json_encode(['status' => 'error', 'message' => 'Sesión no iniciada']);
+    echo json_encode(['status' => 'error', 'message' => $lang['auth_not_logged_in']]);
     exit;
 }
 
-// 2) Verificar inactividad (10 minutos = 600 seg)
+// Verificar inactividad durante 10 minutos
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > 600)) {
     session_unset();
     session_destroy();
-    echo json_encode(['status' => 'error', 'message' => 'Sesión caducada']);
+    echo json_encode(['status' => 'error', 'message' => $lang['auth_session_expired']]);
     exit;
 }
 
-// 3) Actualizar última actividad
+// Actualizar última actividad
 $_SESSION['last_activity'] = time();

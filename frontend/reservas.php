@@ -1,27 +1,24 @@
 <?php
-// Inicia la sesión para acceder a $_SESSION
-session_start();
+// Cargar middleware que gestiona sesión, inactividad e idiomas centralizados
+require_once __DIR__ . '/../backend/middleware/Auth_middleware.php';
+require_auth_web();
+require_once __DIR__ . '/../backend/config/db.php';
 
-//  Verificar si hay sesión activa
-if (!isset($_SESSION['usuario_id'])) {
-    header("Location: login.php");
-    exit;
+// Denegación por defecto
+$es_admin = false;
+try {
+    $stmt = $conn->prepare("SELECT rol FROM usuarios WHERE id = :id");
+    $stmt->execute([':id' => $_SESSION['usuario_id']]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($user && isset($user['rol']) && $user['rol'] === 'admin') {
+        $es_admin = true;
+    }
+} catch (PDOException $e) {
+    // Error silencioso
 }
-
-// Comprobamos si existe 'last_activity' y ha pasado más de 600 segundos desde la última acción
-if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > 600)) {
-    session_unset();
-    session_destroy();
-    // Redirige al login indicando timeout
-    header("Location: ../frontend/login.php?timeout=1");
-    exit;
-}
-
-// Actualizar última actividad a la hora actual
-$_SESSION['last_activity'] = time();
 ?>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="<?= $_SESSION['lang'] ?>">
 
 <head>
     <meta charset="UTF-8">
@@ -33,62 +30,79 @@ $_SESSION['last_activity'] = time();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- CSS Personalizado -->
     <link href="css/custom.css" rel="stylesheet">
+    <!-- Flag Icons CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.0.0/css/flag-icons.min.css" />
 </head>
 
 <body>
-    <!-- Navbar con navegación -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="index.php">
-                <img src="img/logo.jpg" alt="Logo" class="logo-icon">
-                <span class="brand-text">
-                    <span class="text-sweet">Sweet</span><span class="text-spot">Spot</span>
-                </span>
-            </a>
+    <!-- Selector de idioma -->
+    <div class="lang-switcher">
+        <a href="?lang=es" class="lang-btn <?= $_SESSION['lang'] === 'es' ? 'active' : '' ?>" title="Español"><span
+                class="fi fi-es"></span></a>
+        <a href="?lang=en" class="lang-btn <?= $_SESSION['lang'] === 'en' ? 'active' : '' ?>" title="English"><span
+                class="fi fi-gb"></span></a>
+    </div>
 
-            <!-- Menú de navegación a la derecha -->
-            <ul class="navbar-nav ms-auto mb-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.php">Inicio</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="reservas.php">Reservas</a>
-                </li>
-            </ul>
+    <!-- Cabecera -->
+    <header>
+        <!-- Navbar con navegación -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="index.php">
+                    <img src="img/logo.jpg" alt="Logo" class="logo-icon">
+                    <span class="brand-text">
+                        <span class="text-sweet">Sweet</span><span class="text-spot">Spot</span>
+                    </span>
+                </a>
 
-            <form action="logout.php" method="POST" class="ms-3">
-                <button type="submit" class="btn btn-orange btn-sm">Cerrar sesión</button>
-            </form>
-        </div>
-    </nav>
+                <!-- Menú de navegación a la derecha -->
+                <ul class="navbar-nav ms-auto mb-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="reservas.php"><?= $lang['nav_reservations'] ?></a>
+                    </li>
+                </ul>
+
+                <div class="d-flex ms-3 gap-2">
+                    <?php if ($es_admin): ?>
+                        <a href="admin.php"
+                            class="btn btn-orange btn-sm"><?= $lang['nav_admin_panel'] ?? 'Panel Admin' ?></a>
+                    <?php endif; ?>
+                    <form action="logout.php" method="POST" class="m-0 align-content-center">
+                        <button type="submit" class="btn-logout"><?= $lang['nav_logout'] ?></button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </header>
 
     <!-- Contenedor principal -->
     <div class="container py-4">
         <!-- Card para hacer reserva -->
         <div class="card card-custom mb-4">
             <div class="card-header">
-                <h5 class="mb-0 text-white">Nueva Reserva</h5>
+                <h5 class="mb-0 text-white"><?= $lang['res_new'] ?></h5>
             </div>
             <div class="card-body">
                 <form id="reservaForm" class="row g-3 align-items-end">
                     <div class="col-md-3">
-                        <label class="form-label">Fecha</label>
-                        <input type="date" id="fecha" class="form-control" required>
+                        <label class="form-label"><?= $lang['res_date'] ?></label>
+                        <input type="date" id="fecha" class="form-control" required min="<?= date('Y-m-d') ?>">
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label">Pista</label>
+                        <label class="form-label"><?= $lang['res_court'] ?></label>
                         <select id="pista" class="form-select" required>
-                            <option value="" disabled selected>Selecciona</option>
-                            <option value="1">Pista 1</option>
-                            <option value="2">Pista 2</option>
-                            <option value="3">Pista 3</option>
-                            <option value="4">Pista 4</option>
+                            <option value="" disabled selected><?= $lang['res_select'] ?></option>
+                            <option value="1"><?= $lang['court_prefix'] ?> 1</option>
+                            <option value="2"><?= $lang['court_prefix'] ?> 2</option>
+                            <option value="3"><?= $lang['court_prefix'] ?> 3</option>
+                            <option value="4"><?= $lang['court_prefix'] ?> 4</option>
                         </select>
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label">Hora inicio</label>
-                        <select id="hora_inicio" class="form-select" required>
-                            <option value="" disabled selected>Selecciona</option>
+                        <label class="form-label"><?= $lang['res_start_time'] ?></label>
+                        <select id="hora_inicio" class="form-select" required disabled>
+                            <option value="" disabled selected><?= $lang['res_select_first'] ?? 'Elige fecha y pista' ?>
+                            </option>
                             <option value="07:00">07:00 - 08:30</option>
                             <option value="08:30">08:30 - 10:00</option>
                             <option value="10:00">10:00 - 11:30</option>
@@ -102,7 +116,7 @@ $_SESSION['last_activity'] = time();
                         </select>
                     </div>
                     <div class="col-md-3">
-                        <button type="submit" class="btn btn-orange w-100">Reservar</button>
+                        <button type="submit" class="btn btn-orange w-100"><?= $lang['res_button'] ?></button>
                     </div>
                 </form>
             </div>
@@ -111,17 +125,17 @@ $_SESSION['last_activity'] = time();
         <!-- Card con tabla de reservas -->
         <div class="card card-custom">
             <div class="card-header">
-                <h5 class="mb-0 text-white">Reservas en activo</h5>
+                <h5 class="mb-0 text-white"><?= $lang['res_active'] ?></h5>
             </div>
             <div class="card-body p-0">
                 <table id="tablaReservas" class="table table-dark table-striped mb-0">
                     <thead>
                         <tr>
-                            <th>Fecha</th>
-                            <th>Hora inicio</th>
-                            <th>Hora fin</th>
-                            <th>Pista</th>
-                            <th>Acciones</th>
+                            <th><?= $lang['res_date_col'] ?></th>
+                            <th><?= $lang['res_start_col'] ?></th>
+                            <th><?= $lang['res_end_col'] ?></th>
+                            <th><?= $lang['res_court_col'] ?></th>
+                            <th><?= $lang['res_actions'] ?></th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -132,25 +146,47 @@ $_SESSION['last_activity'] = time();
         <!-- Card con historial de reservas -->
         <div class="card card-custom mt-4">
             <div class="card-header">
-                <h5 class="mb-0 text-white">Historial de Reservas</h5>
+                <h5 class="mb-0 text-white"><?= $lang['res_history'] ?></h5>
             </div>
             <div class="card-body p-0">
                 <table id="tablaHistorial" class="table table-dark table-striped mb-0">
                     <thead>
                         <tr>
-                            <th>Fecha</th>
-                            <th>Hora inicio</th>
-                            <th>Hora fin</th>
-                            <th>Pista</th>
+                            <th><?= $lang['res_date_col'] ?></th>
+                            <th><?= $lang['res_start_col'] ?></th>
+                            <th><?= $lang['res_end_col'] ?></th>
+                            <th><?= $lang['res_court_col'] ?></th>
                         </tr>
                     </thead>
                     <tbody></tbody>
                 </table>
             </div>
         </div>
+
+        <!-- Gestión de cuenta -->
+        <div class="mt-5 pt-4 d-flex flex-column align-items-center w-100">
+            <hr class="border-secondary mb-4 opacity-50 w-100">
+            <p class="text-muted small mb-2 text-center"><?= $lang['res_account_settings'] ?></p>
+            <a href="../backend/delete_me.php" onclick="return confirm('<?= $lang['res_confirm_delete_account'] ?>');"
+                class="btn btn-sm btn-outline-danger" style="opacity: 0.8;">
+                <?= $lang['res_delete_account'] ?>
+            </a>
+        </div>
     </div>
 
     <!-- Script principal que maneja las reservas -->
+    <script>
+        const langData = {
+            noActive: "<?= $lang['res_no_active'] ?>",
+            noHistory: "<?= $lang['res_no_history'] ?>",
+            courtPrefix: "<?= $lang['court_prefix'] ?>",
+            btnCancel: "<?= $lang['admin_cancel'] ?>",
+            bookingSuccess: "<?= $lang['js_booking_success'] ?>",
+            slotOccupied: "<?= $lang['js_slot_occupied'] ?>",
+            confirmCancel: "<?= $lang['js_confirm_cancel'] ?>",
+            bookingCancelled: "<?= $lang['js_booking_cancelled'] ?>"
+        };
+    </script>
     <script src="js/main.js"></script>
     <script>
         // Inyecta el ID del usuario de la sesión a JS

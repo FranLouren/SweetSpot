@@ -19,7 +19,7 @@ frontend/img/*
 *.sublime-project
 *.sublime-workspace
 
-# Dependencias (si las hubiera)
+# Dependencias 
 node_modules/
 vendor/
 

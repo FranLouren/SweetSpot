@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once __DIR__ . '/lang/lang.php';
 require_once __DIR__ . '/../backend/config/db.php';
 
 $error = '';
@@ -18,20 +19,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre = trim($_POST['nombre'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
+    $confirm_password = $_POST['confirm_password'] ?? '';
 
-    if (!$nombre || !$email || !$password) {
-        $error = "Por favor completa todos los campos.";
+    if (!$nombre || !$email || !$password || !$confirm_password) {
+        $error = $lang['register_error_fields'];
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $error = "El email no es válido.";
+        $error = $lang['register_error_email'];
     } elseif (strlen($password) < 6) {
-        $error = "La contraseña debe tener al menos 6 caracteres.";
+        $error = $lang['register_error_password'];
+    } elseif ($password !== $confirm_password) {
+        $error = $lang['register_error_password_match'];
     } else {
         try {
             $stmt = $conn->prepare("SELECT id FROM usuarios WHERE email = :email");
             $stmt->execute([':email' => $email]);
 
             if ($stmt->fetch()) {
-                $error = "El email ya está registrado.";
+                $error = $lang['register_error_exists'];
             } else {
                 $hash = password_hash($password, PASSWORD_DEFAULT);
                 $stmt = $conn->prepare("
@@ -67,9 +71,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- CSS Personalizado -->
     <link href="css/custom.css?v=2" rel="stylesheet">
+    <!-- Flag Icons CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.0.0/css/flag-icons.min.css"/>
 </head>
 
 <body>
+    <!-- Selector de idioma -->
+    <div class="lang-switcher">
+        <a href="?lang=es" class="lang-btn <?= $_SESSION['lang'] === 'es' ? 'active' : '' ?>" title="Español"><span class="fi fi-es"></span></a>
+        <a href="?lang=en" class="lang-btn <?= $_SESSION['lang'] === 'en' ? 'active' : '' ?>" title="English"><span class="fi fi-gb"></span></a>
+    </div>
+
     <div class="auth-container">
         <div class="auth-card">
             <!-- Logo y título -->
@@ -80,13 +92,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <span class="text-sweet">Sweet</span><span class="text-spot">Spot</span>
                     </h1>
                 </a>
-                <p class="brand-subtitle">Reserva tu pista de pádel</p>
+                <p class="brand-subtitle"><?= $lang['subtitle'] ?></p>
             </div>
 
             <!-- Card del formulario -->
             <div class="card card-custom">
                 <div class="card-header text-center">
-                    <h4 class="mb-0 text-white">Crear cuenta</h4>
+                    <h4 class="mb-0 text-white"><?= $lang['register_title'] ?></h4>
                 </div>
                 <div class="card-body">
                     <!-- Mensaje de error -->
@@ -97,27 +109,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <!-- Formulario de registro -->
                     <form method="POST" action="" autocomplete="off">
                         <div class="mb-3">
-                            <label class="form-label">Nombre:</label>
-                            <input type="text" name="nombre" class="form-control" placeholder="Tu nombre" required
+                            <label class="form-label"><?= $lang['register_name'] ?></label>
+                            <input type="text" name="nombre" class="form-control" placeholder="<?= $lang['register_name_placeholder'] ?>" required
                                 value="<?php echo htmlspecialchars($nombre); ?>">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Email:</label>
-                            <input type="email" name="email" class="form-control" placeholder="tu@email.com" required
+                            <label class="form-label"><?= $lang['register_email'] ?></label>
+                            <input type="email" name="email" class="form-control" placeholder="<?= $lang['register_email_placeholder'] ?>" required
                                 value="<?php echo htmlspecialchars($email); ?>">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Contraseña:</label>
+                            <label class="form-label"><?= $lang['register_password'] ?></label>
                             <input type="password" name="password" class="form-control"
-                                placeholder="Mínimo 6 caracteres" required autocomplete="new-password">
+                                placeholder="<?= $lang['register_password_placeholder'] ?>" required autocomplete="new-password">
                         </div>
-                        <button type="submit" class="btn btn-orange w-100">Registrarse</button>
+                        <div class="mb-4">
+                            <label class="form-label"><?= $lang['register_confirm_password'] ?></label>
+                            <input type="password" name="confirm_password" class="form-control"
+                                placeholder="<?= $lang['register_confirm_password_placeholder'] ?>" required autocomplete="new-password">
+                        </div>
+                        <button type="submit" class="btn btn-orange w-100"><?= $lang['register_button'] ?></button>
                     </form>
 
                     <!-- Enlace a login -->
                     <div class="text-center mt-4">
-                        <span class="text-muted">¿Ya tienes cuenta?</span>
-                        <a href="login.php">Inicia sesión</a>
+                        <span class="text-muted"><?= $lang['register_have_account'] ?></span>
+                        <a href="login.php"><?= $lang['register_login_link'] ?></a>
                     </div>
                 </div>
             </div>

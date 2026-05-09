@@ -6,12 +6,9 @@ CREATE TABLE usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(25) NOT NULL,
     email VARCHAR(50) UNIQUE NOT NULL,
+    rol ENUM('usuario', 'admin') DEFAULT 'usuario',
     password VARCHAR(50) NOT NULL
 );
-
--- HEMOS AÑADIDO LA COLUMNA ROL
-ALTER TABLE usuarios 
-ADD COLUMN rol ENUM('usuario', 'admin') DEFAULT 'usuario' AFTER password;
 
 
 -- Tabla de pistas
