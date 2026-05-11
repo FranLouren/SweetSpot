@@ -104,6 +104,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <div class="alert alert-success"><?= $lang['login_success'] ?></div>
                     <?php endif; ?>
 
+                    <?php if (isset($_GET['recovered']) && $_GET['recovered'] == 1): ?>
+                        <div class="alert alert-success"><?= $lang['login_recovered'] ?></div>
+                    <?php endif; ?>
+
                     <!-- Mostramos el mensaje de error si existe -->
                     <?php if ($error): ?>
                         <div class="alert alert-danger"><?php echo htmlspecialchars($error); ?></div>
@@ -128,6 +132,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="text-center mt-4">
                         <span class="text-muted"><?= $lang['login_no_account'] ?></span>
                         <a href="register.php"><?= $lang['login_register_link'] ?></a>
+                    </div>
+                    <div class="text-center mt-2">
+                        <a href="recuperar.php" class="small"><?= $lang['login_forgot_password'] ?></a>
                     </div>
                 </div>
             </div>

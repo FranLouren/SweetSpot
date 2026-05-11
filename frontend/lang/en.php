@@ -29,6 +29,25 @@ $lang = [
     'login_register_link' => 'Sign Up',
     'login_error' => 'Incorrect email or password',
     'login_error_fields' => 'Please enter email and password',
+    'login_recovered' => 'Password updated successfully. You can now log in.',
+    'login_forgot_password' => 'Forgot your password?',
+
+    // Recover password
+    'recover_title' => 'Recover Password',
+    'recover_subtitle' => 'Enter your email and we will redirect you to set a new password.',
+    'recover_button' => 'Continue',
+    'recover_back_login' => '← Back to login',
+    'recover_error_empty' => 'Please enter your email.',
+    'recover_error_notfound' => 'No account found with that email.',
+
+    // New password
+    'newpass_title' => 'New Password',
+    'newpass_label' => 'New password:',
+    'newpass_placeholder' => 'At least 6 characters',
+    'newpass_button' => 'Save new password',
+    'register_confirm_placeholder' => 'Repeat your password',
+    'register_error_pass_match' => 'Passwords do not match.',
+    'register_error_pass_length' => 'Password must be at least 6 characters.',
 
     // Register
     'register_title' => 'Create Account',

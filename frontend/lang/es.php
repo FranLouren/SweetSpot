@@ -29,6 +29,25 @@ $lang = [
     'login_register_link' => 'Regístrate',
     'login_error' => 'Usuario o contraseña incorrectos',
     'login_error_fields' => 'Por favor ingresa email y contraseña',
+    'login_recovered' => 'Contraseña actualizada correctamente. Ahora puedes iniciar sesión.',
+    'login_forgot_password' => '¿Olvidaste tu contraseña?',
+
+    // Recuperar contraseña
+    'recover_title' => 'Recuperar Contraseña',
+    'recover_subtitle' => 'Introduce tu email y te redirigiremos para establecer una nueva contraseña.',
+    'recover_button' => 'Continuar',
+    'recover_back_login' => '← Volver al inicio de sesión',
+    'recover_error_empty' => 'Por favor, introduce tu email.',
+    'recover_error_notfound' => 'No existe ninguna cuenta con ese email.',
+
+    // Nueva contraseña
+    'newpass_title' => 'Nueva Contraseña',
+    'newpass_label' => 'Nueva contraseña:',
+    'newpass_placeholder' => 'Mínimo 6 caracteres',
+    'newpass_button' => 'Guardar nueva contraseña',
+    'register_confirm_placeholder' => 'Repite tu contraseña',
+    'register_error_pass_match' => 'Las contraseñas no coinciden.',
+    'register_error_pass_length' => 'La contraseña debe tener al menos 6 caracteres.',
 
     // Register
     'register_title' => 'Crear Cuenta',
