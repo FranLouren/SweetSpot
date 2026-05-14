@@ -16,28 +16,28 @@ if (isset($_SESSION['usuario_id'])) {
     exit;
 }
 
-// Inicializamos variable para almacenar mensajes de error
+// Inicializar variable de error
 $error = '';
 
-// Comprobamos si se ha enviado el formulario
+// Verificar envío del formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Recogemos los datos enviados desde el formulario HTML
+    // Obtener credenciales del formulario
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
 
     if ($email && $password) {
         try {
-            // Ahora también seleccionamos el rol
+            // Obtener datos del usuario mediante consulta preparada
             $stmt = $conn->prepare("SELECT id, nombre, password, rol FROM usuarios WHERE email = :email");
             $stmt->execute([':email' => $email]);
             $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($usuario && password_verify($password, $usuario['password'])) {
-                // Guardamos en sesión ID y rol
+                // Autenticación exitosa: almacenar datos en sesión
                 $_SESSION['usuario_id'] = $usuario['id'];
                 $_SESSION['usuario_rol'] = $usuario['rol'];
 
-                // Redirigimos según el rol
+                // Redirección basada en rol
                 if ($usuario['rol'] === 'admin') {
                     header("Location: admin.php");
                 } else {
@@ -70,14 +70,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- CSS Personalizado -->
     <link href="css/custom.css?v=2" rel="stylesheet">
     <!-- Flag Icons CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.0.0/css/flag-icons.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.0.0/css/flag-icons.min.css" />
 </head>
 
 <body>
     <!-- Selector de idioma -->
     <div class="lang-switcher">
-        <a href="?lang=es" class="lang-btn <?= $_SESSION['lang'] === 'es' ? 'active' : '' ?>" title="Español"><span class="fi fi-es"></span></a>
-        <a href="?lang=en" class="lang-btn <?= $_SESSION['lang'] === 'en' ? 'active' : '' ?>" title="English"><span class="fi fi-gb"></span></a>
+        <a href="?lang=es" class="lang-btn <?= $_SESSION['lang'] === 'es' ? 'active' : '' ?>" title="Español"><span
+                class="fi fi-es"></span></a>
+        <a href="?lang=en" class="lang-btn <?= $_SESSION['lang'] === 'en' ? 'active' : '' ?>" title="English"><span
+                class="fi fi-gb"></span></a>
     </div>
 
     <div class="auth-container">

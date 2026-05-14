@@ -45,6 +45,28 @@ try {
     $fin = clone $inicio;
     $fin->modify('+1 hour 30 minutes'); // duración fija de 1h30
 
+    // Validación: límite de 3 reservas activas por usuario
+    $stmt_limit = $conn->prepare("SELECT COUNT(*) FROM reservas WHERE usuario_id = :usuario_id AND CONCAT(fecha, ' ', hora_inicio) >= NOW()");
+    $stmt_limit->execute([':usuario_id' => $usuario_id]);
+    $active_count = $stmt_limit->fetchColumn();
+    if ($active_count >= 3) {
+        echo json_encode(['status' => 'error', 'message' => $lang['res_err_max_reservas']]);
+        exit;
+    }
+
+    // Validación: no permitir reservar a la misma hora en distintas pistas
+    $stmt_same_time = $conn->prepare("SELECT COUNT(*) FROM reservas WHERE usuario_id = :usuario_id AND fecha = :fecha AND hora_inicio = :hora_inicio");
+    $stmt_same_time->execute([
+        ':usuario_id' => $usuario_id,
+        ':fecha' => $fecha,
+        ':hora_inicio' => $inicio->format('H:i:s')
+    ]);
+    if ($stmt_same_time->fetchColumn() > 0) {
+        echo json_encode(['status' => 'error', 'message' => $lang['res_err_misma_hora']]);
+        exit;
+    }
+
+
     // Comprobamos si la pista ya está ocupada en ese horario
     $stmt = $conn->prepare("
         SELECT * FROM reservas

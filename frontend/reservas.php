@@ -164,9 +164,9 @@ try {
         </div>
 
         <!-- Gestión de cuenta -->
-        <div class="mt-5 pt-4 d-flex flex-column align-items-center w-100">
-            <hr class="border-secondary mb-4 opacity-50 w-100">
-            <p class="text-muted small mb-2 text-center"><?= $lang['res_account_settings'] ?></p>
+        <div class="mt-5 pt-4 text-center">
+            <hr class="border-secondary mb-4 opacity-50">
+            <p class="text-muted small mb-2"><?= $lang['res_account_settings'] ?></p>
             <a href="../backend/delete_me.php" onclick="return confirm('<?= $lang['res_confirm_delete_account'] ?>');"
                 class="btn btn-sm btn-outline-danger" style="opacity: 0.8;">
                 <?= $lang['res_delete_account'] ?>

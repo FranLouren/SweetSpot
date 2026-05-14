@@ -113,6 +113,9 @@ $lang = [
     'js_slot_occupied' => '(Occupied)',
     'js_confirm_cancel' => 'Are you sure you want to cancel this reservation?',
     'js_booking_cancelled' => 'Reservation cancelled',
+    'res_err_max_reservas' => 'You cannot have more than 3 active reservations simultaneously.',
+    'res_err_misma_hora' => 'You already have a reservation scheduled at this time on another court.',
+
 
     // Admin
     'admin_res_success' => 'Reservation added successfully',

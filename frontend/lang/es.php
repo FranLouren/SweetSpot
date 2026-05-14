@@ -113,6 +113,9 @@ $lang = [
     'js_slot_occupied' => '(Ocupada)',
     'js_confirm_cancel' => '¿Seguro que quieres cancelar esta reserva?',
     'js_booking_cancelled' => 'Reserva cancelada',
+    'res_err_max_reservas' => 'No puedes tener más de 3 reservas activas simultáneamente.',
+    'res_err_misma_hora' => 'Ya tienes una reserva programada a esta misma hora en otra pista.',
+
 
     // Admin
     'admin_res_success' => 'Reserva añadida correctamente',
